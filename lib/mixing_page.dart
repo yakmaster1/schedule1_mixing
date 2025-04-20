@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:schedule_calculator/colors.dart';
+import 'package:schedule_calculator/drug_provider.dart';
 
 class MixingPage extends StatelessWidget {
   final VoidCallback switchPages;
+  final DrugProvider drugProvider;
   
   const MixingPage({
     super.key,
-    required this.switchPages
+    required this.switchPages,
+    required this.drugProvider
   });
 
   @override

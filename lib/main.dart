@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:schedule_calculator/colors.dart';
+import 'package:schedule_calculator/drug_provider.dart';
 import 'package:schedule_calculator/mixing_page.dart';
 import 'package:schedule_calculator/product_page.dart';
 import 'package:window_size/window_size.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +19,14 @@ void main() async {
     setWindowTitle("Schedule I Mixing helper");
   }
 
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<DrugProvider>(create: (_) => DrugProvider()),
+      ],
+      child: const MainApp(),
+    )
+  );
 }
 
 class MainApp extends StatefulWidget {
@@ -60,29 +69,33 @@ void switchPages() {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: MyColors.darkGray,
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: scrollController,
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SizedBox(
-                height: screenSize.height,
-                width: screenSize.width,
-                child: ProductPage(
-                  switchPages: switchPages,
+      home: Consumer<DrugProvider>(
+        builder: (context, drugProvider, child) => Scaffold(
+          backgroundColor: MyColors.darkGray,
+          body: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: scrollController,
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                SizedBox(
+                  height: screenSize.height,
+                  width: screenSize.width,
+                  child: ProductPage(
+                    switchPages: switchPages,
+                    drugProvider: drugProvider
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: screenSize.height,
-                width: screenSize.width,
-                child: MixingPage(
-                  switchPages: switchPages,
-                ),
-              )
-            ],
+                SizedBox(
+                  height: screenSize.height,
+                  width: screenSize.width,
+                  child: MixingPage(
+                    switchPages: switchPages,
+                    drugProvider: drugProvider
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       )
