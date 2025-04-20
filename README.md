@@ -1,3 +1,3 @@
-# schedule_calculator
+# schedule_mixer
 
 A new Flutter project.

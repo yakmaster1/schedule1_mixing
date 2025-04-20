@@ -1,4 +1,4 @@
-name: schedule_calculator
+name: schedule_mixer
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.4
-  window_size:
 
 dev_dependencies:
   flutter_test:

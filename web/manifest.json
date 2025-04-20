@@ -1,6 +1,6 @@
 {
-    "name": "schedule_calculator",
-    "short_name": "schedule_calculator",
+    "name": "schedule_mixer",
+    "short_name": "schedule_mixer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
