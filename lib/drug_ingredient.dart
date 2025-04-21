@@ -4,19 +4,21 @@ class DrugIngredient {
   final String displayName;
   final double price;
   final DrugEffect createdEffect;
-  final Map<DrugEffect, DrugEffect> replacementMap;
+  final List<MapEntry<DrugEffect, DrugEffect>> replacementMap;
 
-  final List<DrugEffect?>? isInMixSpecialReplacement;
-  final List<DrugEffect?>? isNotInMixSpecialReplacement;
-  final Map<int, Map<DrugEffect, DrugEffect>>? specialReplacementMap;
+  final List<
+    MapEntry<
+      // inMix, notInMix
+      MapEntry<DrugEffect?, DrugEffect?>, 
+      MapEntry<DrugEffect, DrugEffect>
+    >
+  >? specialReplacementMap;
 
   const DrugIngredient({
     required this.displayName,
     required this.price,
     required this.createdEffect,
     required this.replacementMap,
-    this.isInMixSpecialReplacement,
-    this.isNotInMixSpecialReplacement,
     this.specialReplacementMap
   });
 
@@ -24,134 +26,286 @@ class DrugIngredient {
     displayName: "Cuke", 
     price: 2, 
     createdEffect: DrugEffect.energizing, 
-    replacementMap: {
-      DrugEffect.munchies: DrugEffect.athletic,
-      DrugEffect.foggy: DrugEffect.cyclopean,
-      DrugEffect.toxic: DrugEffect.euphoric,
-      DrugEffect.euphoric: DrugEffect.laxative,
-      DrugEffect.slippery: DrugEffect.munchies,
-      DrugEffect.sneaky: DrugEffect.paranoia,
-      DrugEffect.gingeritis: DrugEffect.thoughtprovoking
-    },
-    isInMixSpecialReplacement: [
-      DrugEffect.munchies
+    replacementMap: [
+      MapEntry(DrugEffect.munchies, DrugEffect.athletic),
+      MapEntry(DrugEffect.foggy, DrugEffect.cyclopean),
+      MapEntry(DrugEffect.toxic, DrugEffect.euphoric),
+      MapEntry(DrugEffect.euphoric, DrugEffect.laxative),
+      MapEntry(DrugEffect.slippery, DrugEffect.munchies),
+      MapEntry(DrugEffect.sneaky, DrugEffect.paranoia),
+      MapEntry(DrugEffect.gingeritis, DrugEffect.thoughtprovoking)
     ],
-    isNotInMixSpecialReplacement: [
-      null
-    ],
-    specialReplacementMap: {
-      0: {DrugEffect.slippery: DrugEffect.athletic}
-    }
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(DrugEffect.munchies, null), 
+        MapEntry(DrugEffect.slippery, DrugEffect.athletic)
+      ),
+    ]
   );
 
   static const DrugIngredient banana = DrugIngredient(
     displayName: "Banana", 
     price: 2, 
     createdEffect: DrugEffect.gingeritis, 
-    replacementMap: {
-      DrugEffect.smelly: DrugEffect.antigravity,
-      DrugEffect.disorienting: DrugEffect.focused,
-      DrugEffect.paranoia: DrugEffect.jennerising,
-      DrugEffect.longfaced: DrugEffect.refreshing,
-      DrugEffect.focused: DrugEffect.seizure,
-      DrugEffect.toxic: DrugEffect.smelly,
-      DrugEffect.calming: DrugEffect.sneaky,
-      DrugEffect.cyclopean: DrugEffect.thoughtprovoking,
-      DrugEffect.energizing: DrugEffect.thoughtprovoking
-    }
+    replacementMap: [
+      MapEntry(DrugEffect.smelly, DrugEffect.antigravity),
+      MapEntry(DrugEffect.disorienting, DrugEffect.focused),
+      MapEntry(DrugEffect.paranoia, DrugEffect.jennerising),
+      MapEntry(DrugEffect.longfaced, DrugEffect.refreshing),
+      MapEntry(DrugEffect.focused, DrugEffect.seizure),
+      MapEntry(DrugEffect.toxic, DrugEffect.smelly),
+      MapEntry(DrugEffect.calming, DrugEffect.sneaky),
+      MapEntry(DrugEffect.cyclopean, DrugEffect.thoughtprovoking),
+      MapEntry(DrugEffect.energizing, DrugEffect.thoughtprovoking)
+    ]
   );
 
   static const DrugIngredient paracetamol = DrugIngredient(
     displayName: "Paracetamol", 
     price: 3, 
     createdEffect: DrugEffect.sneaky, 
-    replacementMap: {
-      DrugEffect.munchies: DrugEffect.antigravity,
-      DrugEffect.electrifying: DrugEffect.athletic,
-      DrugEffect.paranoia: DrugEffect.balding,
-      DrugEffect.spicy: DrugEffect.brighteyed,
-      DrugEffect.foggy: DrugEffect.calming,
-      DrugEffect.focused: DrugEffect.gingeritis,
-      DrugEffect.calming: DrugEffect.slippery,
-      DrugEffect.glowing: DrugEffect.toxic,
-      DrugEffect.toxic: DrugEffect.tropicthunder
-    },
-    isInMixSpecialReplacement: [
-      DrugEffect.paranoia,
-      DrugEffect.munchies
+    replacementMap: [
+      MapEntry(DrugEffect.munchies, DrugEffect.antigravity),
+      MapEntry(DrugEffect.electrifying, DrugEffect.athletic),
+      MapEntry(DrugEffect.paranoia, DrugEffect.balding),
+      MapEntry(DrugEffect.spicy, DrugEffect.brighteyed),
+      MapEntry(DrugEffect.foggy, DrugEffect.calming),
+      MapEntry(DrugEffect.focused, DrugEffect.gingeritis),
+      MapEntry(DrugEffect.calming, DrugEffect.slippery),
+      MapEntry(DrugEffect.glowing, DrugEffect.toxic),
+      MapEntry(DrugEffect.toxic, DrugEffect.tropicthunder)
     ],
-    isNotInMixSpecialReplacement: [
-      null,
-      null
-    ],
-    specialReplacementMap: {
-      0: {DrugEffect.energizing: DrugEffect.balding},
-      1: {DrugEffect.energizing: DrugEffect.paranoia}
-    }
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(DrugEffect.paranoia, null), 
+        MapEntry(DrugEffect.energizing, DrugEffect.balding)
+      ),
+      MapEntry(
+        MapEntry(DrugEffect.munchies, null), 
+        MapEntry(DrugEffect.energizing, DrugEffect.paranoia)
+      ),
+    ]
   );
 
   static const DrugIngredient donut = DrugIngredient(
     displayName: "Donut", 
     price: 3, 
     createdEffect: DrugEffect.caloriedense, 
-    replacementMap: {
-      DrugEffect.shrinking: DrugEffect.energizing,
-      DrugEffect.focused: DrugEffect.euphoric,
-      DrugEffect.jennerising: DrugEffect.gingeritis,
-      DrugEffect.antigravity: DrugEffect.slippery,
-      DrugEffect.balding: DrugEffect.sneaky,
-    },
-    isInMixSpecialReplacement: [
-      DrugEffect.caloriedense
+    replacementMap: [
+      MapEntry(DrugEffect.shrinking, DrugEffect.energizing),
+      MapEntry(DrugEffect.focused, DrugEffect.euphoric),
+      MapEntry(DrugEffect.jennerising, DrugEffect.gingeritis),
+      MapEntry(DrugEffect.antigravity, DrugEffect.slippery),
+      MapEntry(DrugEffect.balding, DrugEffect.sneaky),
     ],
-    isNotInMixSpecialReplacement: [
-      DrugEffect.explosive
-    ],
-    specialReplacementMap: {
-      0: {DrugEffect.caloriedense: DrugEffect.explosive}
-    }
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(DrugEffect.caloriedense, DrugEffect.explosive), 
+        MapEntry(DrugEffect.caloriedense, DrugEffect.explosive)
+      ),
+    ]
   );
 
   static const DrugIngredient viagra = DrugIngredient(
     displayName: "V*agra", 
     price: 4, 
     createdEffect: DrugEffect.tropicthunder, 
-    replacementMap: {
-      DrugEffect.euphoric: DrugEffect.brighteyed,
-      DrugEffect.laxative: DrugEffect.calming,
-      DrugEffect.athletic: DrugEffect.sneaky,
-      DrugEffect.disorienting: DrugEffect.toxic,
-    },
+    replacementMap: [
+      MapEntry(DrugEffect.euphoric, DrugEffect.brighteyed),
+      MapEntry(DrugEffect.laxative, DrugEffect.calming),
+      MapEntry(DrugEffect.athletic, DrugEffect.sneaky),
+      MapEntry(DrugEffect.disorienting, DrugEffect.toxic),
+    ],
   );
 
   static const DrugIngredient mouthwash = DrugIngredient(
     displayName: "Mouth Wash", 
     price: 4, 
     createdEffect: DrugEffect.balding, 
-    replacementMap: {
-      DrugEffect.calming: DrugEffect.antigravity,
-      DrugEffect.focused: DrugEffect.jennerising,
-      DrugEffect.explosive: DrugEffect.sedating,
-      DrugEffect.caloriedense: DrugEffect.sneaky,
-    },
+    replacementMap: [
+      MapEntry(DrugEffect.calming, DrugEffect.antigravity),
+      MapEntry(DrugEffect.focused, DrugEffect.jennerising),
+      MapEntry(DrugEffect.explosive, DrugEffect.sedating),
+      MapEntry(DrugEffect.caloriedense, DrugEffect.sneaky),
+    ],
   );
 
   static const DrugIngredient flumedicine = DrugIngredient(
     displayName: "Flu Medicine", 
     price: 5, 
     createdEffect: DrugEffect.sedating, 
-    replacementMap: {
-      DrugEffect.calming: DrugEffect.brighteyed,
-      DrugEffect.focused: DrugEffect.calming,
-      DrugEffect.laxative: DrugEffect.euphoric,
-      DrugEffect.cyclopean: DrugEffect.foggy,
-      DrugEffect.thoughtprovoking: DrugEffect.gingeritis,
-      DrugEffect.athletic: DrugEffect.munchies,
-      DrugEffect.shrinking: DrugEffect.paranoia,
-      DrugEffect.electrifying: DrugEffect.refreshing,
-      DrugEffect.munchies: DrugEffect.slippery,
-      DrugEffect.euphoric: DrugEffect.toxic,
-    },
+    replacementMap: [
+      MapEntry(DrugEffect.calming, DrugEffect.brighteyed),
+      MapEntry(DrugEffect.focused, DrugEffect.calming),
+      MapEntry(DrugEffect.laxative, DrugEffect.euphoric),
+      MapEntry(DrugEffect.cyclopean, DrugEffect.foggy),
+      MapEntry(DrugEffect.thoughtprovoking, DrugEffect.gingeritis),
+      MapEntry(DrugEffect.athletic, DrugEffect.munchies),
+      MapEntry(DrugEffect.shrinking, DrugEffect.paranoia),
+      MapEntry(DrugEffect.electrifying, DrugEffect.refreshing),
+      MapEntry(DrugEffect.munchies, DrugEffect.slippery),
+      MapEntry(DrugEffect.euphoric, DrugEffect.toxic),
+    ],
+  );
+
+  static const DrugIngredient gasoline = DrugIngredient(
+    displayName: "Gasoline", 
+    price: 5, 
+    createdEffect: DrugEffect.toxic, 
+    replacementMap: [
+      MapEntry(DrugEffect.paranoia, DrugEffect.calming),
+      MapEntry(DrugEffect.electrifying, DrugEffect.disorienting),
+      MapEntry(DrugEffect.energizing, DrugEffect.euphoric),
+      MapEntry(DrugEffect.shrinking, DrugEffect.focused),
+      MapEntry(DrugEffect.laxative, DrugEffect.foggy),
+      MapEntry(DrugEffect.disorienting, DrugEffect.glowing),
+      MapEntry(DrugEffect.munchies, DrugEffect.sedating),
+      MapEntry(DrugEffect.gingeritis, DrugEffect.smelly),
+      MapEntry(DrugEffect.jennerising, DrugEffect.sneaky),
+      MapEntry(DrugEffect.energizing, DrugEffect.spicy),
+      MapEntry(DrugEffect.sneaky, DrugEffect.tropicthunder),
+    ],
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(null, DrugEffect.energizing), 
+        MapEntry(DrugEffect.euphoric, DrugEffect.spicy)
+      ),
+    ]
+  );
+
+  static const DrugIngredient energydrink = DrugIngredient(
+    displayName: "Energy Drink", 
+    price: 6, 
+    createdEffect: DrugEffect.athletic, 
+    replacementMap: [
+      MapEntry(DrugEffect.schizophrenic, DrugEffect.balding),
+      MapEntry(DrugEffect.glowing, DrugEffect.disorienting),
+      MapEntry(DrugEffect.disorienting, DrugEffect.electrifying),
+      MapEntry(DrugEffect.euphoric, DrugEffect.energizing),
+      MapEntry(DrugEffect.spicy, DrugEffect.euphoric),
+      MapEntry(DrugEffect.foggy, DrugEffect.laxative),
+      MapEntry(DrugEffect.sedating, DrugEffect.munchies),
+      MapEntry(DrugEffect.focused, DrugEffect.shrinking),
+      MapEntry(DrugEffect.tropicthunder, DrugEffect.sneaky)
+    ],
+  );
+
+  static const DrugIngredient motoroil = DrugIngredient(
+    displayName: "Motor Oil", 
+    price: 6, 
+    createdEffect: DrugEffect.slippery, 
+    replacementMap: [
+      MapEntry(DrugEffect.paranoia, DrugEffect.antigravity),
+      MapEntry(DrugEffect.energizing, DrugEffect.munchies),
+      MapEntry(DrugEffect.energizing, DrugEffect.schizophrenic),
+      MapEntry(DrugEffect.euphoric, DrugEffect.sedating),
+      MapEntry(DrugEffect.foggy, DrugEffect.toxic),
+    ],
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(null, DrugEffect.energizing), 
+        MapEntry(DrugEffect.munchies, DrugEffect.schizophrenic)
+      ),
+    ]
+  );
+
+  static const DrugIngredient megabean = DrugIngredient(
+    displayName: "Mega Bean", 
+    price: 7, 
+    createdEffect: DrugEffect.foggy, 
+    replacementMap: [
+      MapEntry(DrugEffect.sneaky, DrugEffect.calming),
+      MapEntry(DrugEffect.thoughtprovoking, DrugEffect.cyclopean),
+      MapEntry(DrugEffect.focused, DrugEffect.disorienting),
+      MapEntry(DrugEffect.shrinking, DrugEffect.electrifying),
+      MapEntry(DrugEffect.thoughtprovoking, DrugEffect.energizing),
+      MapEntry(DrugEffect.seizure, DrugEffect.focused),
+      MapEntry(DrugEffect.calming, DrugEffect.glowing),
+      MapEntry(DrugEffect.sneaky, DrugEffect.glowing),
+      MapEntry(DrugEffect.athletic, DrugEffect.laxative),
+      MapEntry(DrugEffect.jennerising, DrugEffect.paranoia),
+      MapEntry(DrugEffect.slippery, DrugEffect.toxic),
+    ],
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(null, DrugEffect.thoughtprovoking), 
+        MapEntry(DrugEffect.energizing, DrugEffect.cyclopean)
+      ),
+    ]
+  );
+
+  static const DrugIngredient chili = DrugIngredient(
+    displayName: "Chilli", 
+    price: 7, 
+    createdEffect: DrugEffect.spicy, 
+    replacementMap: [
+      MapEntry(DrugEffect.sneaky, DrugEffect.brighteyed),
+      MapEntry(DrugEffect.athletic, DrugEffect.euphoric),
+      MapEntry(DrugEffect.laxative, DrugEffect.longfaced),
+      MapEntry(DrugEffect.shrinking, DrugEffect.refreshing),
+      MapEntry(DrugEffect.munchies, DrugEffect.toxic),
+      MapEntry(DrugEffect.antigravity, DrugEffect.tropicthunder),
+    ],
+  );
+
+  static const DrugIngredient battery = DrugIngredient(
+    displayName: "Battery", 
+    price: 8, 
+    createdEffect: DrugEffect.brighteyed, 
+    replacementMap: [
+      MapEntry(DrugEffect.laxative, DrugEffect.caloriedense),
+      MapEntry(DrugEffect.cyclopean, DrugEffect.glowing),
+      MapEntry(DrugEffect.shrinking, DrugEffect.munchies),
+      MapEntry(DrugEffect.munchies, DrugEffect.tropicthunder),
+    ],
+    specialReplacementMap: [
+      MapEntry(
+        MapEntry(null, DrugEffect.zombifying), 
+        MapEntry(DrugEffect.electrifying, DrugEffect.euphoric)
+      ),
+      MapEntry(
+        MapEntry(null, DrugEffect.electrifying), 
+        MapEntry(DrugEffect.euphoric, DrugEffect.zombifying)
+      ),
+    ]
+  );
+
+  static const DrugIngredient iodine = DrugIngredient(
+    displayName: "Iodine", 
+    price: 8, 
+    createdEffect: DrugEffect.jennerising, 
+    replacementMap: [
+      MapEntry(DrugEffect.caloriedense, DrugEffect.gingeritis),
+      MapEntry(DrugEffect.foggy, DrugEffect.paranoia),
+      MapEntry(DrugEffect.calming, DrugEffect.sedating),
+      MapEntry(DrugEffect.euphoric, DrugEffect.seizure),
+      MapEntry(DrugEffect.toxic, DrugEffect.sneaky),
+      MapEntry(DrugEffect.refreshing, DrugEffect.thoughtprovoking),
+    ],
+  );
+
+  static const DrugIngredient addy = DrugIngredient(
+    displayName: "Addy", 
+    price: 9, 
+    createdEffect: DrugEffect.thoughtprovoking, 
+    replacementMap: [
+      MapEntry(DrugEffect.longfaced, DrugEffect.electrifying),
+      MapEntry(DrugEffect.foggy, DrugEffect.energizing),
+      MapEntry(DrugEffect.explosive, DrugEffect.euphoric),
+      MapEntry(DrugEffect.sedating, DrugEffect.gingeritis),
+      MapEntry(DrugEffect.glowing, DrugEffect.refreshing),
+    ],
+  );
+
+  static const DrugIngredient horsesemen = DrugIngredient(
+    displayName: "Horse S*men", 
+    price: 9, 
+    createdEffect: DrugEffect.longfaced, 
+    replacementMap: [
+      MapEntry(DrugEffect.antigravity, DrugEffect.calming),
+      MapEntry(DrugEffect.thoughtprovoking, DrugEffect.electrifying),
+      MapEntry(DrugEffect.gingeritis, DrugEffect.refreshing)
+    ],
   );
 
   static const List<DrugIngredient> allIngredients = [
@@ -161,6 +315,15 @@ class DrugIngredient {
     donut,
     viagra,
     mouthwash,
-    flumedicine
+    flumedicine,
+    gasoline,
+    energydrink,
+    motoroil,
+    megabean,
+    chili,
+    battery,
+    iodine,
+    addy,
+    horsesemen
   ];
 }

@@ -18,7 +18,7 @@ void main() {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   static Widget? listElement(MyProvider myProvider, int index) {
@@ -59,39 +59,61 @@ class MainApp extends StatelessWidget {
   }
 
   static const Color backgroundColor = Color.fromARGB(255, 35, 35, 35);
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  late final TreeElement root;
+  
+  @override
+  void initState() {
+    super.initState();
+    Drug drug = Drug.allDrugs[0];
+    root = TreeElement(value: MixedDrug.convertToMixed(drug));
+    DrugTree.initDrugTree(root);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Consumer<MyProvider>(
         builder: (context, myProvider, child) => Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: MainApp.backgroundColor,
           body: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 75, left: 20, right: 20, bottom: 20),
                 child: Row(
                   children: [
-                    button(
+                    MainApp.button(
                       () => myProvider.clearEffects(),
                       "Clear",
                       Colors.red
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 25),
-                      child: button(
-                        () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const MixPage()),
-                        ),
-                        "Search",
-                        Colors.green
+                      child: MainApp.button(
+                        () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => const MixPage()),
+                          );
+                        },
+                        "Index",
+                        Colors.blue
                       ),
                     ),
-                    button(
+                    MainApp.button(
                       () {
-                        Drug drug = Drug.allDrugs[0];
-                        TreeElement root = TreeElement(value: MixedDrug.convertToMixed(drug));
-                        DrugTree.initDrugTree(root);
+                        DrugTree.getTreeLayer(root, 0);
+                        DrugTree.getTreeLayer(root, 1);
+                        DrugTree.getTreeLayer(root, 2);
                       },
                       "TestTree",
                       Colors.pink
@@ -103,7 +125,7 @@ class MainApp extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: DrugEffect.allEffects.length,
                   itemBuilder: (context, index) {
-                    final Widget? widget = listElement(myProvider, index);
+                    final Widget? widget = MainApp.listElement(myProvider, index);
                     return widget;
                   }
                 ),
