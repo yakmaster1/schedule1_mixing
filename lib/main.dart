@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_mixer/drug.dart';
@@ -58,6 +60,21 @@ class MainApp extends StatefulWidget {
     );
   }
 
+  static String formatNumberWithDots(int number) {
+    final numStr = number.toString();
+    final buffer = StringBuffer();
+
+    for (int i = 0; i < numStr.length; i++) {
+      buffer.write(numStr[i]);
+      final remaining = numStr.length - i - 1;
+      if (remaining % 3 == 0 && remaining != 0) {
+        buffer.write('.');
+      }
+    }
+
+    return buffer.toString();
+  }
+
   static const Color backgroundColor = Color.fromARGB(255, 35, 35, 35);
 
   @override
@@ -79,7 +96,7 @@ class _MainAppState extends State<MainApp> {
   void dispose() {
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -87,38 +104,65 @@ class _MainAppState extends State<MainApp> {
         builder: (context, myProvider, child) => Scaffold(
           backgroundColor: MainApp.backgroundColor,
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 75, left: 20, right: 20, bottom: 20),
                 child: Row(
                   children: [
-                    MainApp.button(
-                      () => myProvider.clearEffects(),
-                      "Clear",
-                      Colors.red
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25),
-                      child: MainApp.button(
-                        () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => const MixPage()),
-                          );
-                        },
-                        "Index",
-                        Colors.blue
+                    IconButton(
+                      onPressed: () {
+                        myProvider.searchLayer(true);
+                      }, 
+                      icon: const Icon(Icons.add),
+                      color: Colors.white,
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll<Color>(Colors.green)
                       ),
                     ),
-                    MainApp.button(
-                      () {
-                        DrugTree.getTreeLayer(root, 0);
-                        DrugTree.getTreeLayer(root, 1);
-                        DrugTree.getTreeLayer(root, 2);
-                      },
-                      "TestTree",
-                      Colors.pink
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        myProvider.searchLayers.toString(),
+                        style: TextStyle(
+                          color: (myProvider.searchLayers < 8) ? Colors.white : Colors.red,
+                          fontSize: 20
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        myProvider.searchLayer(false);
+                      }, 
+                      icon: const Icon(Icons.remove),
+                      color: Colors.white,
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll<Color>(Colors.red)
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        MainApp.formatNumberWithDots(pow(16, myProvider.searchLayers).toInt()),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10
+                        ),
+                      ),
                     ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 20),
+                child: MainApp.button(
+                  () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MixPage(myProvider: myProvider))
+                    );
+                  },
+                  "Compute now",
+                  Colors.blue
                 ),
               ),
               Expanded(
